@@ -1,0 +1,37 @@
+# Documentos / borradores
+*.pdf
+
+# Dependencias
+node_modules/
+vendor/
+
+# Entornos virtuales (Python)
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Variables de entorno y secretos
+.env
+.env.local
+*.local
+
+# Logs
+*.log
+logs/
+
+# Builds / temporales
+dist/
+build/
+tmp/
+*.tmp
+
+# Sistema operativo
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editores / IDE
+.vscode/
+.idea/
+*.swp
