@@ -1,5 +1,10 @@
-# Documentos / borradores
+# Documentos / borradores (no se suben)
 *.pdf
+docs/
+Claude outputs/
+
+# Configuración local de Claude Code
+.claude/
 
 # Dependencias
 node_modules/
@@ -14,6 +19,7 @@ __pycache__/
 # Variables de entorno y secretos
 .env
 .env.local
+!.env.example
 *.local
 
 # Logs

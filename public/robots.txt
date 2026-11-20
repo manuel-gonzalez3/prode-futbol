@@ -1,0 +1,4 @@
+# Todo el sitio se puede recorrer: la única pantalla con contenido público es el login.
+# Las pantallas internas piden login, y recuperar / restablecer llevan <meta name="robots" content="noindex">.
+User-agent: *
+Allow: /

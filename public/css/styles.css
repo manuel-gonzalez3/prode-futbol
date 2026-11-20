@@ -1,0 +1,807 @@
+/* Estilos generales del Prode */
+
+/* Fuente Archivo (Omnibus-Type, Argentina; licencia libre OFL). Está en public/fonts para no depender de otro sitio.
+   font-display: swap muestra el texto enseguida con una fuente del sistema y la cambia cuando Archivo termina de cargar. */
+@font-face {
+    font-family: "Archivo";
+    src: url("../fonts/archivo.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Colores y medidas que se repiten. Todos los pares texto/fondo cumplen el contraste AA de WCAG (4.5:1 o más). */
+:root {
+    --verde: #17613a;          /* color principal: barra, botones y links */
+    --verde-oscuro: #0d3b24;   /* panel de la portada y estados "apretado" */
+    --verde-claro: #e3f2e8;    /* fondos suaves: avisos de éxito, estado activo */
+    --papel: #f4f6f1;          /* fondo de la página */
+    --blanco: #ffffff;
+    --tinta: #18211c;          /* texto principal */
+    --tinta-suave: #4a5a50;    /* texto secundario y ayudas */
+    --borde: #d3dad4;          /* líneas divisorias */
+    --borde-campo: #74857a;    /* borde de inputs: 3:1 contra el blanco para que se distinga */
+    --amarilla: #f5c518;       /* como la tarjeta amarilla: foco sobre fondos verdes y puntos del marcador */
+    --roja: #a3201a;           /* como la tarjeta roja: errores y deshabilitar */
+    --roja-clara: #fdecea;
+    --radio: 8px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* El atributo hidden tiene que ganarle a cualquier display que pongamos más abajo */
+[hidden] {
+    display: none !important;
+}
+
+body {
+    margin: 0;
+    font-family: "Archivo", Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    background: var(--papel);
+    color: var(--tinta);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1,
+h2 {
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+}
+
+h1 {
+    margin: 0 0 12px;
+    font-size: 1.75rem;
+    font-weight: 800;
+}
+
+h2 {
+    margin: 32px 0 12px;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+p {
+    margin: 0 0 12px;
+}
+
+a {
+    color: var(--verde);
+}
+
+a:hover {
+    color: var(--verde-oscuro);
+}
+
+/* Foco visible para quien navega con teclado (Tab). Nunca se saca el outline sin reemplazarlo. */
+:focus-visible {
+    outline: 3px solid var(--verde);
+    outline-offset: 2px;
+}
+
+/* Link "Saltar al contenido": está fuera de la pantalla hasta que recibe el foco */
+.saltar {
+    position: absolute;
+    left: 8px;
+    top: -60px;
+    z-index: 10;
+    padding: 10px 14px;
+    background: var(--blanco);
+    color: var(--verde-oscuro);
+    font-weight: 700;
+    border-radius: var(--radio);
+}
+
+.saltar:focus {
+    top: 8px;
+}
+
+/* Barra superior */
+.barra {
+    display: flex;
+    flex-wrap: wrap; /* en pantallas angostas la navegación baja a otra línea */
+    align-items: center;
+    gap: 8px 24px;
+    padding: 10px 24px;
+    background: var(--verde);
+    color: var(--blanco);
+}
+
+.barra a {
+    color: var(--blanco);
+    text-decoration: none;
+}
+
+/* Sobre el verde, el foco se marca en amarillo para que se vea */
+.barra :focus-visible {
+    outline-color: var(--amarilla);
+}
+
+.barra .logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.barra nav {
+    flex: 1;
+}
+
+.barra nav ul {
+    display: flex;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.barra nav a {
+    display: block;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.barra nav a:hover {
+    background: var(--verde-oscuro);
+}
+
+/* Sección actual: fondo oscuro y subrayado (no depende solo del color) */
+.barra nav a[aria-current="page"] {
+    background: var(--verde-oscuro);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+}
+
+/* Quién está logueado y con qué rol */
+.cuenta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+}
+
+.cuenta-nombre {
+    font-weight: 600;
+}
+
+.cuenta a {
+    padding: 8px 4px;
+    text-decoration: underline;
+}
+
+/* Contenido principal */
+.contenido {
+    flex: 1;
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px 16px;
+}
+
+/* El main recibe el foco desde "Saltar al contenido": no hace falta dibujarle un borde */
+.contenido:focus {
+    outline: none;
+}
+
+/* Botones (sirve para <a> y <button>) */
+.boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px; /* tamaño cómodo para tocar con el dedo */
+    padding: 10px 18px;
+    background: var(--verde);
+    color: var(--blanco);
+    border: 2px solid var(--verde);
+    border-radius: var(--radio);
+    font: inherit;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.boton:hover {
+    background: var(--verde-oscuro);
+    border-color: var(--verde-oscuro);
+    color: var(--blanco);
+}
+
+/* Acción secundaria (Cancelar, Ver roles y permisos): solo borde */
+.boton-secundario {
+    background: var(--blanco);
+    color: var(--verde);
+}
+
+.boton-secundario:hover {
+    background: var(--verde-claro);
+    border-color: var(--verde);
+    color: var(--verde-oscuro);
+}
+
+/* Avisos */
+.alerta {
+    padding: 12px 14px;
+    border-left: 4px solid;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.alerta-error {
+    background: var(--roja-clara);
+    color: var(--roja);
+}
+
+.alerta-ok {
+    background: var(--verde-claro);
+    color: var(--verde-oscuro);
+}
+
+/* Texto de ayuda debajo de un campo o arriba de una tabla */
+.ayuda {
+    color: var(--tinta-suave);
+    font-size: 0.9375rem;
+}
+
+/* Campos de los formularios (login, recuperar, restablecer, alta y edición de usuarios) */
+.campos {
+    display: flex;
+    flex-direction: column;
+}
+
+.campos label,
+.campo-fijo {
+    margin: 16px 0 6px;
+    font-weight: 600;
+}
+
+.campos input,
+.campos select {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    background: var(--blanco);
+    color: var(--tinta);
+    border: 1px solid var(--borde-campo);
+    border-radius: var(--radio);
+    font: inherit; /* 16px: evita que el celular haga zoom al entrar al campo */
+}
+
+.campos .ayuda {
+    margin: 6px 0 0;
+}
+
+.campo-fijo {
+    font-weight: 400;
+}
+
+.campos > .boton,
+.botones {
+    margin-top: 24px;
+}
+
+.botones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* Campo de contraseña con el botón Mostrar / Ocultar pegado a la derecha */
+.campo-password {
+    display: flex;
+}
+
+.campo-password input {
+    flex: 1;
+    min-width: 0;
+}
+
+.ver-password {
+    min-width: 88px; /* ancho fijo: el campo no se mueve cuando el texto cambia a "Ocultar" */
+    margin-left: 8px;
+    padding: 0 12px;
+    background: var(--blanco);
+    color: var(--verde);
+    border: 1px solid var(--borde-campo);
+    border-radius: var(--radio);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.ver-password:hover {
+    background: var(--verde-claro);
+    color: var(--verde-oscuro);
+}
+
+/* Links debajo de los formularios ("¿Olvidaste tu contraseña?", "Volver al login") */
+.enlace {
+    margin: 20px 0 0;
+}
+
+/* Tarjeta blanca centrada: recuperar, restablecer, alta y edición de usuarios, 404 */
+.tarjeta-formulario {
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 28px;
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+}
+
+/* Portada (login): presentación y reglamento sobre verde a la izquierda, formulario a la derecha */
+.portada {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    grid-template-areas:
+        "intro   ingreso"
+        "puntaje ingreso";
+    background: var(--verde-oscuro);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.portada-intro {
+    grid-area: intro;
+    padding: 40px 36px 8px;
+    color: var(--blanco);
+}
+
+.portada-intro h1 {
+    margin-bottom: 16px;
+    font-size: 2.5rem;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+}
+
+.portada-intro p {
+    max-width: 34ch;
+    font-size: 1.125rem;
+}
+
+.portada-ingreso {
+    grid-area: ingreso;
+    padding: 40px 36px;
+    background: var(--blanco);
+}
+
+.portada-ingreso h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+
+.portada-puntaje {
+    grid-area: puntaje;
+    align-self: end;
+    padding: 16px 36px 36px;
+}
+
+/* Tabla de puntajes con aspecto de marcador de cancha */
+.marcador {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--blanco);
+}
+
+.marcador caption {
+    padding-bottom: 8px;
+    text-align: left;
+    font-weight: 700;
+}
+
+.marcador th,
+.marcador td {
+    padding: 8px 12px 8px 0;
+    text-align: left;
+    border-top: 1px solid rgba(255, 255, 255, 0.28); /* líneas de cal */
+}
+
+.marcador th {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.marcador td:first-child {
+    white-space: nowrap;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.marcador th:last-child,
+.marcador .puntos {
+    padding-right: 0;
+    text-align: right;
+}
+
+.marcador .puntos {
+    color: var(--amarilla);
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Tarjetas de los paneles */
+.opciones {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    margin: 24px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.tarjeta {
+    display: block;
+    height: 100%;
+    padding: 20px;
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-left: 4px solid var(--verde);
+    border-radius: var(--radio);
+    color: inherit;
+    text-decoration: none;
+}
+
+a.tarjeta:hover {
+    background: var(--verde-claro);
+    color: inherit;
+}
+
+.tarjeta h2 {
+    margin: 0 0 8px;
+    font-size: 1.2rem;
+    color: var(--verde);
+}
+
+.tarjeta p {
+    margin: 0;
+    color: var(--tinta-suave);
+}
+
+/* Opción que todavía no está disponible: sin color y sin link */
+.tarjeta-pendiente {
+    background: transparent;
+    border: 1px dashed var(--borde-campo);
+}
+
+.tarjeta-pendiente h2 {
+    color: var(--tinta-suave);
+}
+
+.tarjeta .pendiente {
+    margin-top: 12px;
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+/* Encabezado de pantalla: título a la izquierda, acciones a la derecha */
+.encabezado {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.encabezado h1 {
+    margin: 0;
+}
+
+.encabezado-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* Tablas */
+.tabla-scroll {
+    overflow-x: auto; /* si la tabla no entra en la pantalla se desplaza solo esta caja, no toda la página */
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabla th,
+.tabla td {
+    padding: 12px 14px;
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--borde);
+}
+
+.tabla tbody tr:last-child th,
+.tabla tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.tabla thead th {
+    background: #eceee8;
+    color: #3d4a42;
+    font-size: 0.875rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.tabla tbody th {
+    font-weight: 600;
+}
+
+.tabla tbody tr:hover {
+    background: #f8faf6;
+}
+
+/* Marca la fila del usuario logueado */
+.vos {
+    color: var(--tinta-suave);
+    font-weight: 400;
+}
+
+.acciones {
+    display: flex;
+    align-items: center;
+    gap: 4px 16px;
+}
+
+.acciones form {
+    margin: 0;
+}
+
+.acciones a,
+button.link {
+    padding: 6px 0;
+    font-weight: 600;
+}
+
+/* Botón con aspecto de link (para acciones que van por POST) */
+button.link {
+    background: none;
+    border: none;
+    color: var(--verde);
+    text-decoration: underline;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button.link:hover {
+    color: var(--verde-oscuro);
+}
+
+/* Deshabilitar es la acción delicada: va en rojo */
+button.link.peligro,
+button.link.peligro:hover {
+    color: var(--roja);
+}
+
+.solo-lectura {
+    color: var(--tinta-suave);
+    font-size: 0.9375rem;
+}
+
+/* Etiqueta de rol (en la barra y en la tabla de usuarios) */
+.rol {
+    display: inline-block;
+    padding: 2px 10px;
+    border: 1px solid var(--borde-campo);
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.rol-admin {
+    border-color: var(--verde);
+    color: var(--verde);
+}
+
+.rol-admin_principal {
+    background: var(--verde);
+    border-color: var(--verde);
+    color: var(--blanco);
+}
+
+.barra .rol {
+    border-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Estado de la cuenta: además del color lleva el texto y un punto / una raya adelante */
+.estado {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.estado.activo {
+    background: var(--verde-claro);
+    color: var(--verde-oscuro);
+}
+
+.estado.activo::before {
+    content: "● ";
+}
+
+.estado.inactivo {
+    background: var(--roja-clara);
+    color: var(--roja);
+}
+
+.estado.inactivo::before {
+    content: "– ";
+}
+
+/* Tablas de permisos: Sí / No */
+.tabla-permisos td {
+    font-weight: 600;
+}
+
+.tabla-permisos .si {
+    color: var(--verde);
+}
+
+.tabla-permisos .no {
+    color: var(--roja);
+}
+
+.reglas {
+    margin: 16px 0 0;
+    padding-left: 20px;
+    max-width: 75ch;
+}
+
+.reglas li {
+    margin-bottom: 6px;
+}
+
+/* Pie */
+.pie {
+    padding: 16px;
+    text-align: center;
+    color: var(--tinta-suave);
+    font-size: 0.875rem;
+}
+
+.pie p {
+    margin: 0;
+}
+
+/* Pantallas angostas (celulares) */
+@media (max-width: 720px) {
+    .barra {
+        padding: 10px 16px;
+    }
+
+    .barra nav {
+        order: 3; /* la navegación pasa abajo del logo y la cuenta */
+        flex-basis: 100%;
+    }
+
+    .cuenta {
+        margin-left: auto;
+    }
+
+    /* La portada se apila: presentación, formulario y reglamento */
+    .portada {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "intro"
+            "ingreso"
+            "puntaje";
+    }
+
+    .portada-intro {
+        padding: 24px 20px 16px;
+    }
+
+    .portada-intro h1 {
+        font-size: 1.875rem;
+    }
+
+    .portada-intro p {
+        font-size: 1rem;
+    }
+
+    .portada-ingreso {
+        padding: 24px 20px;
+    }
+
+    .portada-puntaje {
+        padding: 20px;
+    }
+
+    .tarjeta-formulario {
+        padding: 20px;
+    }
+
+    .encabezado-acciones,
+    .encabezado-acciones .boton {
+        width: 100%;
+    }
+
+    /* Tablas de permisos: celdas más chicas y títulos en dos renglones para que entren mejor;
+       si igual no entran, se desplaza la caja (.tabla-scroll) */
+    .tabla-permisos th,
+    .tabla-permisos td {
+        padding: 10px;
+    }
+
+    .tabla-permisos thead th {
+        white-space: normal;
+    }
+
+    /* Tabla de usuarios: en vez de desplazarse al costado (las acciones quedarían escondidas),
+       cada fila pasa a ser una ficha con "columna: dato" en cada renglón */
+    .tabla-apilada thead {
+        position: absolute; /* se saca de la vista pero los lectores de pantalla la siguen leyendo */
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+    }
+
+    .tabla-apilada,
+    .tabla-apilada tbody,
+    .tabla-apilada tr,
+    .tabla-apilada th,
+    .tabla-apilada td {
+        display: block;
+    }
+
+    .tabla-apilada tr {
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--borde);
+    }
+
+    .tabla-apilada tbody tr:last-child {
+        border-bottom: none;
+    }
+
+    .tabla-apilada tbody th,
+    .tabla-apilada td {
+        padding: 4px 0;
+        border: none;
+    }
+
+    .tabla-apilada tbody th {
+        font-size: 1.125rem;
+    }
+
+    .tabla-apilada td {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    /* Nombre de la columna adelante de cada dato */
+    .tabla-apilada td::before {
+        content: attr(data-etiqueta);
+        flex: 0 0 5.5rem;
+        color: var(--tinta-suave);
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+}
+
+/* Quien pidió menos animaciones en su sistema no recibe ninguna */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+        scroll-behavior: auto !important;
+    }
+}
